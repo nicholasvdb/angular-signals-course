@@ -8,6 +8,11 @@ import {MessagesService} from "../messages/messages.service";
 import {catchError, from, throwError} from "rxjs";
 import {toObservable, toSignal, outputToObservable, outputFromObservable} from "@angular/core/rxjs-interop";
 
+type Counter = {
+  value: number;
+};
+
+
 @Component({
     selector: 'home',
     imports: [
@@ -19,5 +24,15 @@ import {toObservable, toSignal, outputToObservable, outputFromObservable} from "
     styleUrl: './home.component.scss'
 })
 export class HomeComponent {
+  counter = signal<Counter>({value: 100});
 
+  values = signal<Array<number>>([1, 2, 3]);
+
+  append() {
+    this.values.update((values) => [...values, values[values.length - 1] + 1]);
+  }
+
+  increment() {
+    this.counter.update((c) => ({...c, value: c.value + 1}));
+  }
 }
